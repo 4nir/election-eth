@@ -1,38 +1,50 @@
-pragma solidity ^0.4.2;
+pragma solidity 0.4.24;
 
 contract Election {
-	
-	struct Candidate {
-		uint id;
-		string name;
-		uint voteCount;
-	}
+    // Model a Candidate
+    struct Candidate {
+        uint id;
+        string name;
+        uint voteCount;
+    }
 
-	//Store candidates
-	//Fetch Candidates
-	mapping(uint => Candidate) public candidates; //if it's public
-								//sol with create a candidates()
-							   //that will allow us to fetch our candidates
-    //Note: When you add a candidate to the mapping, you are changing
-    //the state of the contract and writing it to the blockchain
+    // Store accounts that have voted
+    mapping(address => bool) public voters;
+    // Store Candidates
+    // Fetch Candidate
+    mapping(uint => Candidate) public candidates;
+    // Store Candidates Count
+    uint public candidatesCount;
 
+    // voted event
+    event votedEvent (
+        uint indexed _candidateId
+    );
 
-    //Store Candidates Count
-    uint public candidatesCount;  //state variable
-    						//we'll increment each time we add
+    constructor() public {
+        addCandidate("Candidate 1");
+        addCandidate("Candidate 2");
+    }
 
-	//Constructor
-	function Election() public {
-		addCandidate("Candidate 1");
-		addCandidate("Candidate 2");
-	}
+    function addCandidate (string _name) private {
+        candidatesCount ++;
+        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
+    }
 
-	function addCandidate(string _name) private {    //private function
-		candidatesCount++;
-		candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
-	}
+    // function vote (uint _candidateId) public {
+    //     // require that they haven't voted before
+    //     require(!voters[msg.sender]);
+
+    //     // require a valid candidate
+    //     require(_candidateId > 0 && _candidateId <= candidatesCount);
+
+    //     // record that voter has voted
+    //     voters[msg.sender] = true;
+
+    //     // update candidate vote Count
+    //     candidates[_candidateId].voteCount ++;
+
+    //     // trigger voted event
+    //     votedEvent(_candidateId);
+    // }
 }
-
-//https://www.youtube.com/watch?v=3681ZYbDSSk&list=PLS5SEs8ZftgXXPYBH6rDk4TKnDOvinwJr
-//Stopped at 47:30
-
