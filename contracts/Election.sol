@@ -33,3 +33,6 @@ contract Election {
 	}
 }
 
+//https://www.youtube.com/watch?v=3681ZYbDSSk&list=PLS5SEs8ZftgXXPYBH6rDk4TKnDOvinwJr
+//Stopped at 47:30
+
